@@ -7,9 +7,9 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const app = express();
 
 // Configuration
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3333;
 const HOST = "localhost";
-const API_SERVICE_URL = "https://grantguru-mongodb-9ih5k.ondigitalocean.app";
+const API_SERVICE_URL = "https://portal.talente-in-rente.bayern/api/";
 
 // CORS
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
@@ -35,12 +35,12 @@ app.get("/info", (req, res, next) => {
 
 // Proxy endpoints
 app.use(
-  "/tir_api",
+  "/tir",
   createProxyMiddleware({
     target: API_SERVICE_URL,
     changeOrigin: true,
     pathRewrite: {
-      [`^/tir_api`]: "",
+      [`^/tir`]: "",
     },
   })
 );
