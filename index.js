@@ -9,10 +9,16 @@ const app = express();
 // Configuration
 const PORT = process.env.PORT || 3333;
 const HOST = "localhost";
-const API_SERVICE_URL = "https://portal.talente-in-rente.bayern/api/";
 
 // CORS
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(
+  cors({
+    // credentials: true,
+    origin: true,
+    allowedHeaders: "*",
+    exposedHeaders: "*",
+  })
+);
 
 // Logging
 app.use(morgan("dev"));
@@ -33,14 +39,26 @@ app.get("/info", (req, res, next) => {
 //     }
 // });
 
-// Proxy endpoints
+// Proxy Ariana endpoints
 app.use(
-  "/tir",
+  "/ariana",
   createProxyMiddleware({
-    target: API_SERVICE_URL,
+    target: "https://ariana.app",
     changeOrigin: true,
     pathRewrite: {
-      [`^/tir`]: "",
+      [`^/ariana`]: "",
+    },
+  })
+);
+
+// Proxy Football360 endpoints
+app.use(
+  "/f360",
+  createProxyMiddleware({
+    target: "https://football360.ir",
+    changeOrigin: true,
+    pathRewrite: {
+      [`^/f360`]: "",
     },
   })
 );
